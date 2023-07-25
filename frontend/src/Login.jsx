@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './style.css'
+import axios from 'axios'
 
 const Login = () => {
     const [values, setValues] =useState({
@@ -7,11 +8,18 @@ const Login = () => {
         password: ''
     })
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.post('', values)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+
   return (
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
       <div className="bg-white p-3 rounded w-25 border">
         <h2>Login Page</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="email">
                     <strong>Email</strong>
