@@ -11,6 +11,12 @@ const Dashboard = () => {
         .then(res => {
             if(res.data.Status === "Success")
             {
+                if(res.data.role === "admin") {
+                    navigate('/')
+                } else {
+                    const id = res.data.id;
+                    navigate('/employeedetail/'+id)  
+                }
                 console.log("good")
             } else {
                 navigate('/start')

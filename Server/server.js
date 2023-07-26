@@ -105,9 +105,30 @@ app.post('/login', (req, res) => {
         if (err) return res.json({ Error: "Error", Error: "Error in running query" });
         if (result.length > 0) {
             const id = result[0].id
-            const token = jwt.sign({id}, "jwt-secret-key", {expiresIn: '1d'})
+            const token = jwt.sign({role :"admin"}, "jwt-secret-key", {expiresIn: '1d'})
             res.cookie('token', token)
             return res.json({ Status: "Success" })
+        } else {
+            return res.json({ Error: "Error", Error: "Wrong Email or Password" });
+        }
+    })
+
+})
+
+app.post('/employeelogin', (req, res) => {
+    const sql = "SELECT * FROM employee Where email = ?";
+    con.query(sql, [req.body.email], (err, result) => {
+        if (err) return res.json({ Error: "Error", Error: "Error in running query" });
+        if (result.length > 0) {
+            bcrypt.compare(req.body.password.toString(), result[0].password, (err,response) => {
+                if(err) return res.json({ Error: "password error"});
+
+           
+            const token = jwt.sign({role: "employee", id: result[0].id}, "jwt-secret-key", {expiresIn: '1d'})
+            res.cookie('token', token)
+            return res.json({ Status: "Success", id: result[0].id })
+            })
+            
         } else {
             return res.json({ Error: "Error", Error: "Wrong Email or Password" });
         }
@@ -150,13 +171,15 @@ const verifyUser = (req, res, next) => {
     } else {
         jwt.verify(token, "jwt-secret-key", (err, decoded) => {
             if(err) return res.json({Error: "Token wrong"})
+            req.role = decoded.role;
+            req.id = decoded.id;
            next(); 
         })
     }
 }
 
 app.get('/dashboard',verifyUser, (req,res) => {
-    return res.json({Status: "Success"})
+    return res.json({Status: "Success", role: req.role, id: req.id})
 })
 
 app.listen(8081, () => {

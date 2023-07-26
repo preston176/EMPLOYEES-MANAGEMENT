@@ -8,6 +8,8 @@ import Home from './Home';
 import AddEmployee from './AddEmployee';
 import EditEmployee from './EditEmployee';
 import Start from './Start';
+import EmployeeLoginPage from './EmployeeLoginPage';
+import EmployeeDetail from './EmployeeDetail';
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
       
       <Route path='/login' element={<Login />}></Route>
       <Route path='/start' element={<Start />}></Route>
+      <Route path='/employeeLogin' element={<EmployeeLoginPage />}></Route>
+      <Route path='/employeedetail/:id' element={<EmployeeDetail />}></Route>
     </Routes>
   </BrowserRouter>
   )
