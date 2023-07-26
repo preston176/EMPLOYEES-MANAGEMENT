@@ -4,6 +4,8 @@ import cors from 'cors';
 import cookieParser from "cookie-parser";
 import bcrypt from 'bcrypt';
 import jwt  from "jsonwebtoken";
+import path from 'path'
+import multer from "multer";
 
 const app = express();
 app.use(cors());
@@ -15,6 +17,19 @@ const con = mysql.createConnection({
     user: "root",
     password: "",
     database: 'signup'
+})
+
+const storage = multer.diskStorage({
+    destination: (req,file, cb) => {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+    }
+})
+
+const upload = multer({
+    storage: storage
 })
 
 con.connect(function(err) {
@@ -37,6 +52,24 @@ app.post('/login', (req, res) => {
         }
     })
 
+})
+
+app.post('/create',upload.single('image'), (req, res) => {
+    const sql = "INSERT INTO employee (`name`, `email`, `password`, `address`, `image`) VALUES (?)";
+    bcrypt.hash(req.body.password.toString(), 10, (err, hash) => {
+        if(err) return res.json({Error: "Error in hashing password"});
+        const values = [
+            req.body.name,
+            req.body.email,
+            hash,
+            req.body.address,
+            req.file.filename
+        ]
+        con.query(sql, [values], (err, result) => {
+            if(err) return res.json({Error: "Inside signup query"});
+            return res.json({Status: "Success"});
+        })
+    })
 })
 
 app.listen(8081, () => {
