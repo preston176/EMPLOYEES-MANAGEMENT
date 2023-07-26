@@ -19,6 +19,18 @@ const Employee = () => {
       .catch(err => console.log(err))
   }, [])
 
+  const handleDelete = (id) => {
+    axios.delete('http://localhost:8081/delete/'+id)
+    .then(res => {
+      if (res.data.Status === "Success") {
+        // console.log(res.data)
+        window.location.reload(true);
+      } else {
+        alert("Error")
+      }
+    })
+    .catch(err => console.log(err))
+  } 
 
   return (
     <div className='px-5 py-3'>
@@ -51,7 +63,7 @@ const Employee = () => {
                 <td>{emp.salary}</td>
                 <td>
                   <Link to={`/employeeEdit/${emp.id}`} className='btn btn-primary btn-sm me-2'>edit</Link>
-                  <button className='btn btn-sm btn-danger'>delete</button>
+                  <button className='btn btn-sm btn-danger' onClick={e => handleDelete(emp.id)}>delete</button>
                 </td>
               </tr>
             ))}

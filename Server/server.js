@@ -57,6 +57,15 @@ app.get('/get/:id', (req,res) => {
     });
 })
 
+app.put('/update/:id', (req,res) =>{
+    const id = req.params.id
+    const sql = "UPDATE employee set salary = ? WHERE id = ?"
+    con.query(sql, [req.body.salary, id], (err, result) => {
+        if (err) return res.json({ Error: "update employee error in sql" })
+        return res.json({ Status: "Success", Result: result })
+    });
+})
+
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM users Where email = ? AND password = ?";
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
@@ -87,6 +96,14 @@ app.post('/create', upload.single('image'), (req, res) => {
             return res.json({ Status: "Success" });
         })
     })
+})
+app.delete('/delete/:id', (req,res) => {
+    const id = req.params.id
+    const sql = "Delete FROM employee WHERE id = ?"
+    con.query(sql, [id], (err, result) => {
+        if (err) return res.json({ Error: "delete employee error in sql" })
+        return res.json({ Status: "Success", Result: result })
+    });
 })
 
 app.listen(8081, () => {

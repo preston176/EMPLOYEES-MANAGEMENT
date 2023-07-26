@@ -22,15 +22,13 @@ useEffect(() => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formdata = new FormData();
-        formdata.append("name", data.name)
-        formdata.append("email", data.email)
-        formdata.append("address", data.address)
-        formdata.append("salary", data.salary)
-        formdata.append("image", data.image)
-        axios.post('http://localhost:8081/create', formdata)
+
+        axios.put(`http://localhost:8081/update/${id}`, data)
         .then(res => {
-            navigate('/employee')
+            // console.log(res.data.Status)
+            if(res.data.Status === "Success"){
+                navigate('/employee')
+            }
         })
         .catch(err => console.log(err))
     }
