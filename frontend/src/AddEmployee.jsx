@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const AddEmployee = () => {
     const [data, setData] = useState({
@@ -7,9 +8,10 @@ const AddEmployee = () => {
         email: '',
         password: '',
         address: '',
+        salary: '',
         image: ''
     })
-
+    const navigate = useNavigate();
     const handleSubmit = (e) => {
         e.preventDefault();
         const formdata = new FormData();
@@ -17,9 +19,12 @@ const AddEmployee = () => {
         formdata.append("email", data.email)
         formdata.append("password", data.password)
         formdata.append("address", data.address)
+        formdata.append("salary", data.salary)
         formdata.append("image", data.image)
         axios.post('http://localhost:8081/create', formdata)
-        .then(res => console.log(res))
+        .then(res => {
+            navigate('/employee')
+        })
         .catch(err => console.log(err))
     }
 
@@ -41,6 +46,11 @@ const AddEmployee = () => {
                 <div className="col-12">
                     <label htmlFor="inputPassword4" className='form'>Password</label>
                     <input type="password" className='form-control' id='inputPassword4' placeholder='Enter Password' onChange={e => setData({ ...data, password: e.target.value })} autoComplete='off' />
+                </div>
+                <div className="col-12">
+                    <label htmlFor="inputSalary" className='form-label'>Salary</label>
+                    <input type="address" className='form-control' id='inputSalary' placeholder='Enter Salary'
+                    onChange={e => setData({ ...data, salary: e.target.value })} autoComplete='off' />
                 </div>
                 <div className="col-12">
                     <label htmlFor="inputAddress" className='form-label'>Address</label>
