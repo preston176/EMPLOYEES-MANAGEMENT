@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Employee = () => {
   return (
@@ -6,7 +7,9 @@ const Employee = () => {
       <div className="d-flex justify-content-center">
         <h3>Employee List</h3>
       </div>
-      <button className='btn btn-success'>Add Employee</button>
+      <Link to="/create">
+        <button className='btn btn-success'>Add Employee</button>
+      </Link>
     </div>
   )
 }
