@@ -8,7 +8,11 @@ import path from 'path'
 import multer from "multer";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET", "PUT", "DELETE"],
+    credentials: true
+}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static('public'));
@@ -71,6 +75,9 @@ app.post('/login', (req, res) => {
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
         if (err) return res.json({ Error: "Error", Error: "Error in running query" });
         if (result.length > 0) {
+            const id = result[0].id
+            const token = jwt.sign({id}, "jwt-secret-key", {expiresIn: '1d'})
+            res.cookie('token', token)
             return res.json({ Status: "Success" })
         } else {
             return res.json({ Error: "Error", Error: "Wrong Email or Password" });
@@ -104,6 +111,23 @@ app.delete('/delete/:id', (req,res) => {
         if (err) return res.json({ Error: "delete employee error in sql" })
         return res.json({ Status: "Success", Result: result })
     });
+})
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token
+    if(!token) {
+        return res.json({
+            Error: "You are not Authenticated"
+        })
+    } else {
+        jwt.verify(token, "jwt-secret-key", (err, decoded) => {
+            if(err) return res.json({Error: "Token wrong"})
+           next(); 
+        })
+    }
+}
+
+app.get('/dashboard',verifyUser, (req,res) => {
+    return res.json({Status: "Success"})
 })
 
 app.listen(8081, () => {
