@@ -50,7 +50,7 @@ const Employee = () => {
                 <td>{emp.address}</td>
                 <td>{emp.salary}</td>
                 <td>
-                  <Link to={`employeeEdit/${emp.id}`} className='btn btn-primary btn-sm me-2'>edit</Link>
+                  <Link to={`/employeeEdit/${emp.id}`} className='btn btn-primary btn-sm me-2'>edit</Link>
                   <button className='btn btn-sm btn-danger'>delete</button>
                 </td>
               </tr>
