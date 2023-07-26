@@ -1,21 +1,24 @@
 import { useState } from 'react'
 import './style.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
     const [values, setValues] =useState({
         email: '',
         password: ''
     })
+    const navigate = useNavigate('');
     const [error, setError] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:8081/login', values)
         .then(res => {
-            if(res.data.status === 'Success')
+            // console.log(res.data.Status)
+            if(res.data.Status === 'Success')
             {
-                
+                navigate('/');
             } else {
                 setError(res.data.Error);
             }
