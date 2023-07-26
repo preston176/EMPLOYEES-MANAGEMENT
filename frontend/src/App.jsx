@@ -7,6 +7,7 @@ import Profile from './Profile';
 import Home from './Home';
 import AddEmployee from './AddEmployee';
 import EditEmployee from './EditEmployee';
+import Start from './Start';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       </Route>
       
       <Route path='/login' element={<Login />}></Route>
+      <Route path='/start' element={<Start />}></Route>
     </Routes>
   </BrowserRouter>
   )

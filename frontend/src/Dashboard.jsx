@@ -13,7 +13,7 @@ const Dashboard = () => {
             {
                 console.log("good")
             } else {
-                navigate('/login')
+                navigate('/start')
             }
         })
     }, [])
