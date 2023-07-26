@@ -70,6 +70,11 @@ app.put('/update/:id', (req,res) =>{
     });
 })
 
+app.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    return res.json({Status: "Success"})
+})
+
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM users Where email = ? AND password = ?";
     con.query(sql, [req.body.email, req.body.password], (err, result) => {
