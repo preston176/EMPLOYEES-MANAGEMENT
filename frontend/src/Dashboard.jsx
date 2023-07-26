@@ -1,4 +1,6 @@
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import { Link, Outlet } from 'react-router-dom'
+
 
 const Dashboard = () => {
   return (
@@ -11,20 +13,20 @@ const Dashboard = () => {
                 </a>
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li>
-                        <a href="#submenu1" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                        <Link to="/" data-bs-toggle="collapse" className="nav-link px-0 align-middle">
+                            <i className="fs-4 bi-speedometer2"></i> <span className="ms-1 d-none d-sm-inline">Dashboard</span> </Link>
+                    </li>
+                    <li>
+                        <Link to="/employee" className="nav-link px-0 align-middle">
+                            <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Manage Employees</span></Link>
+                    </li>
+                    <li>
+                        <Link to="profile" className="nav-link px-0 align-middle">
+                            <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Profile</span> </Link>
                     </li>
                     <li>
                         <a href="#" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-table"></i> <span className="ms-1 d-none d-sm-inline">Manage Employees</span></a>
-                    </li>
-                    <li>
-                        <a href="#" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi-people"></i> <span className="ms-1 d-none d-sm-inline">Profile</span> </a>
-                    </li>
-                    <li>
-                        <a href="#" className="nav-link px-0 align-middle">
-                            <i className="fs-4 bi bi-box-arrow-right"></i> <span className="ms-1 d-none d-sm-inline">Profile</span> </a>
+                            <i className="fs-4 bi bi-box-arrow-right"></i> <span className="ms-1 d-none d-sm-inline">Log out</span> </a>
                     </li>
                 </ul>
             </div>
@@ -33,6 +35,7 @@ const Dashboard = () => {
         <div className="p-2 d-flex justify-content-center border shadow">
             <h4>Employee Management System</h4>
             </div>
+            <Outlet />
         </div>
     </div>
 </div>
