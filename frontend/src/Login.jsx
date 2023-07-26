@@ -7,17 +7,28 @@ const Login = () => {
         email: '',
         password: ''
     })
+    const [error, setError] = useState('')
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('', values)
-        .then(res => console.log(res))
+        axios.post('http://localhost:8081/login', values)
+        .then(res => {
+            if(res.data.status === 'Success')
+            {
+                
+            } else {
+                setError(res.data.Error);
+            }
+        })
         .catch(err => console.log(err))
     }
 
   return (
     <div className='d-flex justify-content-center align-items-center vh-100 loginPage'>
       <div className="bg-white p-3 rounded w-25 border">
+        <div className="text-danger">
+            {Error && error}
+        </div>
         <h2>Login Page</h2>
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
