@@ -182,6 +182,15 @@ app.get('/dashboard',verifyUser, (req,res) => {
     return res.json({Status: "Success", role: req.role, id: req.id})
 })
 
+// app.get('/employee/:id', (req, res) => {
+//     const id = req.params.id;
+//     const sql = "SELECT * FROM employee where id = ?";
+//     con.query(sql, [id], (err,result) => {
+//         if (err) return res.json({ Error: "Get employee error in sql" })
+//         return res.json({ Status: "Success", Result: result })
+//     });
+// })
+
 app.listen(8081, () => {
     console.log("Running")
 })
